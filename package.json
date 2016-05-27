@@ -1,0 +1,27 @@
+{
+  "name": "people-plotting-grid",
+  "version": "1.0.0",
+  "description": "back end to people plotting grid react program",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "node --harmony server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Swolebrain/people-plotting-grid.git"
+  },
+  "author": "Victor Moreno",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Swolebrain/people-plotting-grid/issues"
+  },
+  "homepage": "https://github.com/Swolebrain/people-plotting-grid#readme",
+  "dependencies": {
+    "express": "^4.13.4",
+    "express-jwt": "^3.4.0",
+    "jsonwebtoken": "^7.0.0",
+    "passport": "^0.3.2",
+    "passport-azure-ad-oauth2": "0.0.4"
+  }
+}
