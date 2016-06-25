@@ -57,7 +57,7 @@ app.use('/api', jwtCheck);
 
 var states = {};
 
-app.options('/api', (req, res) => res.end(200));
+//app.options('/api', (req, res) => res.end(200));
 
 app.post('/api', (req,res) => {
   var user = req.query.user;
