@@ -3,42 +3,7 @@ var port = 8008;
 var express = require('express');
 var app = express();
 var jwt = require('express-jwt');
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
 var cors = require('cors');
-var db = require('./.configdb');
-
-var AppStateSchema = new Schema({
-  user: String,
-  state: {
-        coreVals    : {
-                        SS: String,
-                        Acc: String,
-                        Asp: String,
-                        Com: String,
-                        Exx: String,
-                        Giv: String
-                      },
-        evaluations : [
-                        {
-                          name        :   String,
-                          scoreCard   :   [
-                                            { name: String, score: Number, weight: Number}
-                                          ],
-                          coreVals    : {
-                                  				SS: String,
-                                  				Acc: String,
-                                  				Asp: String,
-                                  				Com: String,
-                                  				Exx: String,
-                                  				Giv: String
-                      			             }
-                        }
-                      ]
-          }
-});
-mongoose.connect('mongodb://' + db.user + ':' + db.pass + '@' + db.host + ':' + db.port + '/' + db.name);
-var AppState = mongoose.model('AppState', AppStateSchema);
 
 var jwtCheck = jwt({
   secret: new Buffer('UUbQ3KTvY1B1xS-lD-fcSGpT3ZglxXsC20I6DHklKLCzHUD5ltmXsuF6muih5Uux', 'base64'),
@@ -59,7 +24,8 @@ app.use('/api', jwtCheck);
 
 var states = {};
 
-//app.options('/api', (req, res) => res.end(200));
+var schemas = require('./schemas.js');
+var Appstate = schemas.Appstate;
 
 app.post('/api', (req,res) => {
   var user = req.query.user;
@@ -72,6 +38,22 @@ app.post('/api', (req,res) => {
   });
   //console.log("got a request - current state \n"+JSON.stringify(statesnode ));
 
+});
+
+app.get('/api', (req, res) => {
+  console.log("Got a request from "+req.query.user);
+  AppState.find({"user": req.query.user}, function(err, results){
+    if (err){
+      console.log("Error: "+err);
+      res.end(err);
+    }
+    else{
+      console.log("Found users: "+JSON.parse(results));
+      if (results.length > 0){
+        res.end(results[0]);
+      }
+    }
+  });
 });
 
 app.listen(8008);
