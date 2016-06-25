@@ -25,7 +25,7 @@ app.use('/api', jwtCheck);
 var states = {};
 
 var schemas = require('./schemas.js');
-var Appstate = schemas.Appstate;
+var AppState = schemas.Appstate;
 
 app.post('/api', (req,res) => {
   var user = req.query.user;
