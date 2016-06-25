@@ -7,7 +7,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var db = require('./.configdb');
 
-var AppState = new Schema({
+var AppStateSchema = new Schema({
   user: String,
   state: {
         coreVals    : {
@@ -37,7 +37,7 @@ var AppState = new Schema({
           }
 });
 mongoose.connect('mongodb://' + db.user + ':' + db.pass + '@' + db.host + ':' + db.port + '/' + db.name);
-mongoose.model('AppState', AppState);
+var AppState = mongoose.model('AppState', AppStateSchema);
 
 var jwtCheck = jwt({
   secret: new Buffer('UUbQ3KTvY1B1xS-lD-fcSGpT3ZglxXsC20I6DHklKLCzHUD5ltmXsuF6muih5Uux', 'base64'),
