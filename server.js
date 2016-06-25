@@ -3,7 +3,6 @@ var port = 8008;
 var express = require('express');
 var app = express();
 var jwt = require('express-jwt');
-var cors = require('cors');
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var db = require('./.configdb');
@@ -45,11 +44,20 @@ var jwtCheck = jwt({
   audience: 'trDPfReklgtHuU9vMwYtEYBGTz0nuLgp'
 });
 
-app.use(cors());
+var allowCrossDomain = function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type,Authorization');
+
+    next();
+}
+app.use(allowCrossDomain);
 
 app.use('/api', jwtCheck);
 
 var states = {};
+
+app.options('/api', (req, res) => res.end(200));
 
 app.post('/api', (req,res) => {
   var user = req.query.user;
