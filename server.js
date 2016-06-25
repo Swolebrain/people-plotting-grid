@@ -18,7 +18,7 @@ var jwtCheck = jwt({
     next();
 }
 app.use(allowCrossDomain);*/
-app.use(cors({origin: 'http://fvi-grad.com'}));
+app.use(cors({origin: '*'}));
 
 app.use('/api', jwtCheck);
 
