@@ -5,6 +5,7 @@ var app = express();
 var jwt = require('express-jwt');
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var cors = require('cors');
 var db = require('./.configdb');
 
 var AppStateSchema = new Schema({
@@ -44,14 +45,15 @@ var jwtCheck = jwt({
   audience: 'trDPfReklgtHuU9vMwYtEYBGTz0nuLgp'
 });
 
-var allowCrossDomain = function(req, res, next) {
+/*var allowCrossDomain = function(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
     res.header('Access-Control-Allow-Headers', 'Content-Type,Authorization');
 
     next();
 }
-app.use(allowCrossDomain);
+app.use(allowCrossDomain);*/
+app.use(cors({origin: 'http://fvi-grad.com'}));
 
 app.use('/api', jwtCheck);
 
