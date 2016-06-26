@@ -30,7 +30,7 @@ var AppStateSchema = new Schema({
                       },
         evals : [ SingleEvalSchema  ]
           }
-}, {_id: false});
+});
 mongoose.connect('mongodb://' + db.user + ':' + db.pass + '@' + db.host + ':' + db.port + '/' + db.name);
 module.exports = {
   AppState : mongoose.model('AppState', AppStateSchema)
