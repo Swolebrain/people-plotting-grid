@@ -51,7 +51,7 @@ app.post('/api', (req,res) => {
           }
           else{
             console.log("valid request from "+user+", doc state:\n"+JSON.stringify(doc.toObject()));
-            console.log("number of documents affected: "+numAffected);
+            console.log("number of documents affected: "+JSON.stringify(numAffected));
             res.end(JSON.stringify(doc.toObject()));
           }
         });
