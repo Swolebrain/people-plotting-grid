@@ -68,10 +68,13 @@ app.get('/api', (req, res) => {
       console.log("Error: "+err);
       res.end(err);
     }
-    else{
+    else if (doc){
       var docObj = JSON.stringify(doc.toObject());
       console.log("Found user: " + docObj);
       res.end(docObj);
+    }
+    else{
+      res.end("{}");
     }
   });
 });
