@@ -20,7 +20,7 @@ var SingleEvalSchema = new Schema({
 var AppStateSchema = new Schema({
   user: String,
   state: {
-        coreVals    : {
+        coreValues    : {
                         SS: String,
                         Acc: String,
                         Asp: String,
