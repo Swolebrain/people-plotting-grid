@@ -34,16 +34,21 @@ app.post('/api', (req,res) => {
   //states[user] = req.query.state;
   AppState.findOne({user: user}, (err, doc ) =>{
     if (err){
-      let userState = new AppState(req.query);
-      userState.save((err, state) => {
-        if (err) res.end("Error saving to db "+ err);
-        else res.end("valid request from "+user+" state:\n"+JSON.stringify(state));
-      });
+      res.end("Error querying mongodb");
     }
     else {
-      doc.state = req.query.state;
-      console.log("valid request from "+user+" state:\n"+JSON.stringify(doc.toObject()));
-      res.end(doc.toObject());
+      if (doc){
+        doc.state = req.query.state;
+        console.log("valid request from "+user+" state:\n"+JSON.stringify(doc.toObject()));
+        res.end(doc.toObject());
+      }
+      else{
+        let userState = new AppState(req.query);
+        userState.save((err, state) => {
+          if (err) res.end("Error saving new user to db "+ err);
+          else res.end("valid request from "+user+" to store new doc in db. State:\n"+JSON.stringify(state));
+        });
+      }
     }
   });
   /*

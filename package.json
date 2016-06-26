@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "node --harmony server.js",
+    "deploy" : "git add * && git commit && git push digi master",
     "start": "node server.js"
   },
   "repository": {
