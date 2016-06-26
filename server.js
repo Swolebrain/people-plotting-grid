@@ -38,6 +38,7 @@ app.post('/api', (req,res) => {
     }
     else {
       if (doc){
+        delete(req.query.state.evals._id);
         doc.state = req.query.state;
         console.log("valid request from "+user+" state:\n"+JSON.stringify(doc.toObject()));
         res.end(JSON.stringify(doc.toObject()));
