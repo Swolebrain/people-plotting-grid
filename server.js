@@ -63,16 +63,14 @@ app.post('/api', (req,res) => {
 
 app.get('/api', (req, res) => {
   console.log("Got a request from "+req.query.user);
-  AppState.find({"user": req.query.user}, function(err, results){
+  AppState.findOne({"user": req.query.user}, '-_id', function(err, doc){
     if (err){
       console.log("Error: "+err);
       res.end(err);
     }
     else{
-      console.log("Found users: "+JSON.parse(results));
-      if (results.length > 0){
-        res.end(results[0]);
-      }
+      console.log("Found users: "+JSON.parse(doc.toObject()));
+      res.end(JSON.stringify(doc.toObject()));
     }
   });
 });
