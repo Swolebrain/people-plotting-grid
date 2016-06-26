@@ -32,13 +32,12 @@ app.post('/api', (req,res) => {
   console.log("got a request from "+user);
   console.log("State info in request: "+JSON.stringify(req.query));
   //states[user] = req.query.state;
-  AppState.findOne({user: user}, (err, doc ) =>{
+  AppState.findOne({user: user}, '-_id', (err, doc ) =>{
     if (err){
       res.end("Error querying mongodb");
     }
     else {
       if (doc){
-        delete(req.query.state.evals._id);
         doc.state = req.query.state;
         console.log("valid request from "+user+" state:\n"+JSON.stringify(doc.toObject()));
         res.end(JSON.stringify(doc.toObject()));
