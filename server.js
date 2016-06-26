@@ -38,10 +38,24 @@ app.post('/api', (req,res) => {
     }
     else {
       if (doc){
+        /*
         doc.state = req.query.state;
         doc.save();
-        console.log("valid request from "+user+" state:\n"+JSON.stringify(doc.toObject()));
-        res.end(JSON.stringify(doc.toObject()));
+        */
+        var conditions = { name: 'borne' }
+            , update = { $set: { state: req.query.state }}
+            , options = { multi: false };
+        AppState.update(conditions, update, options, function(err, numAffected){
+          if (err){
+            res.end("error updating state for user "+user);
+          }
+          else{
+            console.log("valid request from "+user+", doc state:\n"+JSON.stringify(doc.toObject()));
+            console.log("number of documents affected: "+numAffected);
+            res.end(JSON.stringify(doc.toObject()));
+          }
+        });
+
       }
       else{
         let userState = new AppState(req.query);
