@@ -42,7 +42,7 @@ app.post('/api', (req,res) => {
         doc.state = req.query.state;
         doc.save();
         */
-        var conditions = { name: 'borne' }
+        var conditions = { user: user }
             , update = { $set: { state: req.query.state }}
             , options = { multi: false };
         AppState.update(conditions, update, options, function(err, numAffected){
