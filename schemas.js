@@ -16,7 +16,7 @@ var AppStateSchema = new Schema({
         evals : [
                         {
                           name        :   String,
-                          scoreCard   :   [
+                          scorecard   :   [
                                             { name: String, weight: String, score: String}
                                           ],
                           coreVals    : {
