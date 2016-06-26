@@ -13,11 +13,11 @@ var AppStateSchema = new Schema({
                         Exx: String,
                         Giv: String
                       },
-        evaluations : [
+        evals : [
                         {
                           name        :   String,
                           scoreCard   :   [
-                                            { name: String, score: Number, weight: Number}
+                                            { name: String, score: String, weight: String}
                                           ],
                           coreVals    : {
                                   				SS: String,
