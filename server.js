@@ -30,12 +30,28 @@ var AppState = schemas.AppState;
 app.post('/api', (req,res) => {
   var user = req.query.user;
   console.log("got a request from "+user);
+  console.log("State info in request: "+JSON.stringify(req.query));
   //states[user] = req.query.state;
-  var userState = new AppState(req.query);
+  AppState.findOne({user: user}, (err, doc ) =>{
+    if (err){
+      let userState = new AppState(req.query);
+      userState.save((err, state) => {
+        if (err) res.end("Error saving to db "+ err);
+        else res.end("valid request from "+user+" state:\n"+JSON.stringify(state));
+      });
+    }
+    else {
+      doc.state = req.query.state;
+      console.log("valid request from "+user+" state:\n"+JSON.stringify(doc.toObject()));
+      res.end(doc.toObject());
+    }
+  });
+  /*
+  let userState = new AppState(req.query);
   userState.save((err, state) => {
     if (err) res.end("Error saving to db "+ err);
     else res.end("valid request from "+user+" state:\n"+JSON.stringify(state));
-  });
+  });*/
   //console.log("got a request - current state \n"+JSON.stringify(statesnode ));
 
 });
