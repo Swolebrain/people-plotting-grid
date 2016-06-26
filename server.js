@@ -40,7 +40,7 @@ app.post('/api', (req,res) => {
       if (doc){
         doc.state = req.query.state;
         console.log("valid request from "+user+" state:\n"+JSON.stringify(doc.toObject()));
-        res.end(doc.toObject());
+        res.end(JSON.stringify(doc.toObject()));
       }
       else{
         let userState = new AppState(req.query);
