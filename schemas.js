@@ -16,7 +16,7 @@ var SingleEvalSchema = new Schema({
                   Giv: String
                 },
   rehire: Boolean,
-  leadership: Number
+  leadership: {}
 }, { _id: false });
 
 var AppStateSchema = new Schema({
