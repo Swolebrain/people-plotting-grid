@@ -97,7 +97,7 @@ app.get('/api', (req, res) => {
         console.log("state.coreValues is bad");
         return res.end("undefined");
       }
-      if (!Array.isArray(docObj.["state"]["evals"])){
+      if (!Array.isArray(docObj["state"]["evals"])){
         console.log("state.evals is bad");
         return res.end("undefined");
       }
