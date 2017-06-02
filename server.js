@@ -88,7 +88,7 @@ app.get('/api', (req, res) => {
     else if (doc){
       var docObj = JSON.stringify(doc.toObject());
       console.log("Found user: " + docObj);
-      if (typeof docObj.coreValues != "object" || !Array.isArray(docObj.evals)){
+      if (typeof docObj.state.coreValues != "object" || !Array.isArray(docObj.state.evals)){
         return res.end("undefined");
       }
       res.end(docObj);
