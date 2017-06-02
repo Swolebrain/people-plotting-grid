@@ -86,17 +86,22 @@ app.get('/api', (req, res) => {
       res.end(err);
     }
     else if (doc){
-      var docObj = JSON.stringify(doc.toObject());
-      console.log("Found user: " + docObj);
-      if (typeof docObj.state.coreVals != "object" ){
+      var docObj = doc.toObject();
+      var docstringified = JSON.stringify(docObj);
+      console.log("Found user: ");
+      if (typeof docObj["state"] != "object" ){
+        console.log("state is bad");
+        return res.end("undefined");
+      }
+      if (typeof docObj["state"]["coreValues"] != "object" ){
         console.log("state.coreValues is bad");
         return res.end("undefined");
       }
-      if (!Array.isArray(docObj.state.evals)){
+      if (!Array.isArray(docObj.["state"]["evals"])){
         console.log("state.evals is bad");
         return res.end("undefined");
       }
-      res.end(docObj);
+      res.end(docstringified);
     }
     else{
       res.end("undefined");
