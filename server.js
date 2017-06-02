@@ -35,35 +35,37 @@ app.post('/api', (req,res) => {
   AppState.findOne({user: user}, '-_id', (err, doc ) =>{
     if (err){
       res.end("Error querying mongodb");
+      return;
     }
-    else {
-      if (doc){
-        /*
-        doc.state = req.query.state;
-        doc.save();
-        */
-        var conditions = { user: user }
-            , update = { $set: { state: req.query.state }}
-            , options = { multi: false };
-        AppState.update(conditions, update, options, function(err, numAffected){
-          if (err){
-            res.end("error updating state for user "+user);
-          }
-          else{
-            console.log("valid request from "+user+", doc state:\n"+JSON.stringify(doc.toObject()));
-            console.log("number of documents affected: "+JSON.stringify(numAffected));
-            res.end(JSON.stringify(doc.toObject()));
-          }
-        });
+    console.log("Request query: "+JSON.stringify(req.query));
+    if (doc){
+      /*
+      doc.state = req.query.state;
+      doc.save();
+      */
+      console.log("Received request for pre-existing user");
+      var conditions = { user: user }
+          , update = { $set: { state: req.query.state }}
+          , options = { multi: false };
+      AppState.update(conditions, update, options, function(err, numAffected){
+        if (err){
+          res.end("error updating state for user "+user);
+        }
+        else{
+          console.log("valid request from "+user+", doc state:\n"+JSON.stringify(doc.toObject()));
+          console.log("number of documents affected: "+JSON.stringify(numAffected));
+          res.end(JSON.stringify(doc.toObject()));
+        }
+      });
 
-      }
-      else{
-        let userState = new AppState(req.query);
-        userState.save((err, state) => {
-          if (err) res.end("Error saving new user to db "+ err);
-          else res.end("valid request from "+user+" to store new doc in db. State:\n"+JSON.stringify(state));
-        });
-      }
+    }
+    else{
+      console.log("Creating new user");
+      let userState = new AppState(req.query);
+      userState.save((err, state) => {
+        if (err) res.end("Error saving new user to db "+ err);
+        else res.end("valid request from "+user+" to store new doc in db. State:\n"+JSON.stringify(state));
+      });
     }
   });
   /*
