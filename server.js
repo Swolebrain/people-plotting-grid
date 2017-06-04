@@ -96,29 +96,26 @@ function handleRegularUserLoad(req, res){
   AppState.findOne({"user": req.query.user}, '-_id', function(err, doc){
     if (err){
       console.log("Error: "+err);
-      res.end(err);
+      res.json({error: err});
     }
-    else if (doc){
-      var docObj = doc.toObject();
-      var docstringified = JSON.stringify(docObj);
-      console.log("Found user: ");
-      if (typeof docObj["state"] != "object" ){
-        console.log("{}");
-        return res.end("undefined");
-      }
-      if (typeof docObj["state"]["coreValues"] != "object" ){
-        console.log("state.coreValues is bad");
-        return res.end("{}");
-      }
-      if (!Array.isArray(docObj["state"]["evals"])){
-        console.log("state.evals is bad");
-        return res.end("{}");
-      }
-      res.end(docstringified);
+    else if (!doc){
+      return res.json({type: 'user', payload: {}});
     }
-    else{
-      res.end("{}");
+    var docObj = doc.toObject();
+    console.log("Found user: ");
+    if (typeof docObj["state"] != "object" ){
+      console.log("{}");
+      return res.end("undefined");
     }
+    if (typeof docObj["state"]["coreValues"] != "object" ){
+      console.log("state.coreValues is bad");
+      return res.end("{}");
+    }
+    if (!Array.isArray(docObj["state"]["evals"])){
+      console.log("state.evals is bad");
+      return res.end("{}");
+    }
+    res.json(docObj);
   });
 }
 
@@ -129,7 +126,7 @@ function handleAdminLoad(req, res){
       console.log("Error: "+err);
       res.end(err);
     }
-    res.json(docs);
+    res.json({type: 'admin', payload: docs});
   });
 }
 
