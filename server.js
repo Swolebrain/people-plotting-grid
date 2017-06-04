@@ -78,8 +78,21 @@ app.post('/api', (req,res) => {
 
 });
 
+const admins = [
+  'sysop@fvi.edu',
+  'kwade@nhflorida.com',
+  'dantunes@fvi.edu',
+  'agirnun@fvi.edu'
+];
 app.get('/api', (req, res) => {
   console.log("Got a request from "+req.query.user);
+  if (admins.indexOf(req.query.user) >= 0){
+    return handleAdminLoad(req,res);
+  }
+  handleRegularUserLoad(req, res);
+});
+
+function handleRegularUserLoad(req, res){
   AppState.findOne({"user": req.query.user}, '-_id', function(err, doc){
     if (err){
       console.log("Error: "+err);
@@ -107,7 +120,20 @@ app.get('/api', (req, res) => {
       res.end("{}");
     }
   });
-});
+}
+
+function handleAdminLoad(req, res){
+  var domain = req.query.user.split('@')[1];
+  AppState.find({"user": new Regexp('^.*@'+domain, 'i')}, '-_id', function(err, docs){
+    if (err){
+      console.log("Error: "+err);
+      res.end(err);
+    }
+    res.json(docs);
+  });
+}
+
+
 
 app.listen(8008);
 console.log(`App listening on port ${port}`);
