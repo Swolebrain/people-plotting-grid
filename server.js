@@ -90,21 +90,21 @@ app.get('/api', (req, res) => {
       var docstringified = JSON.stringify(docObj);
       console.log("Found user: ");
       if (typeof docObj["state"] != "object" ){
-        console.log("state is bad");
+        console.log("{}");
         return res.end("undefined");
       }
       if (typeof docObj["state"]["coreValues"] != "object" ){
         console.log("state.coreValues is bad");
-        return res.end("undefined");
+        return res.end("{}");
       }
       if (!Array.isArray(docObj["state"]["evals"])){
         console.log("state.evals is bad");
-        return res.end("undefined");
+        return res.end("{}");
       }
       res.end(docstringified);
     }
     else{
-      res.end("undefined");
+      res.end("{}");
     }
   });
 });
