@@ -85,7 +85,7 @@ app.get('/api', (req, res) => {
   handleUserLoad(req, res);
 });
 
-function handleRegularUserLoad(req, res){
+function handleUserLoad(req, res){
   AppState.findOne({"user": req.query.user}, '-_id', function(err, doc){
     if (err){
       console.log("Error: "+err);
