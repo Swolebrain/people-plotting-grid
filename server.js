@@ -32,7 +32,7 @@ var AppState = schemas.AppState;
 
 app.post('/api', (req,res) => {
   var user = req.body.user;
-  console.log("got a request from "+user);
+  console.log("got a POST from "+user);
   console.log("State info in request: "+JSON.stringify(req.body));
 
   AppState.findOne({user: user}, '-_id', (err, doc ) =>{
@@ -41,7 +41,7 @@ app.post('/api', (req,res) => {
       return;
     }
     if (doc){
-      console.log("Received request for pre-existing user");
+      console.log("Received POST for pre-existing user");
       var conditions = { user: user }
           , update = { $set: { state: req.body.state }}
           , options = { multi: false };
@@ -49,14 +49,14 @@ app.post('/api', (req,res) => {
         if (err){
           res.end("error updating state for user "+user);
         }
-        console.log("valid request from "+user+", doc state:\n"+JSON.stringify(doc.toObject()));
+        console.log("valid POST from "+user+", doc state:\n"+JSON.stringify(doc.toObject()));
         console.log("number of documents affected: "+JSON.stringify(numAffected));
         res.end(JSON.stringify(doc.toObject()));
       });
 
     }
     else{
-      console.log("Creating new user");
+      console.log("Creating new user due to POST");
       let userState = new AppState(req.query);
       userState.save((err, state) => {
         if (err) res.end("Error saving new user to db "+ err);
@@ -81,7 +81,7 @@ const admins = [
   'agirnun@fvi.edu'
 ];
 app.get('/api', (req, res) => {
-  console.log("Got a request from "+req.query.user);
+  console.log("GET request from "+req.query.user);
   handleUserLoad(req, res);
 });
 
