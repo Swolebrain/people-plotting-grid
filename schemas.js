@@ -14,9 +14,7 @@ var SingleEvalSchema = new Schema({
                   Com: String,
                   Exx: String,
                   Giv: String
-                },
-  rehire: Boolean,
-  leadership: {type: Schema.Types.Mixed, required: false}
+                }
 }, { _id: false });
 
 var AppStateSchema = new Schema({
