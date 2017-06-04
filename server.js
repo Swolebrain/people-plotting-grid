@@ -34,7 +34,7 @@ app.post('/api', (req,res) => {
   var user = req.body.user;
   console.log("got a request from "+user);
   console.log("State info in request: "+JSON.stringify(req.body));
-  
+
   AppState.findOne({user: user}, '-_id', (err, doc ) =>{
     if (err){
       res.end("Error querying mongodb");
@@ -82,47 +82,37 @@ const admins = [
 ];
 app.get('/api', (req, res) => {
   console.log("Got a request from "+req.query.user);
-  if (admins.indexOf(req.query.user) >= 0){
-    return handleAdminLoad(req,res);
-  }
-  handleRegularUserLoad(req, res);
+  handleUserLoad(req, res);
 });
 
 function handleRegularUserLoad(req, res){
   AppState.findOne({"user": req.query.user}, '-_id', function(err, doc){
     if (err){
       console.log("Error: "+err);
-      res.json({error: err});
+      return res.json({error: err});
     }
-    else if (!doc){
+    if (!doc){
       return res.json({type: 'user', payload: {}});
     }
     var docObj = doc.toObject();
-    console.log("Found user: ");
-    if (typeof docObj["state"] != "object" ){
-      console.log("{}");
-      return res.end("undefined");
+    if (admins.indexOf(req.query.user) >= 0){
+      handleAdminLoad(req, res, docObj);
     }
-    if (typeof docObj["state"]["coreValues"] != "object" ){
-      console.log("state.coreValues is bad");
-      return res.end("{}");
+    else {
+      res.json({type: 'user', payload: docObj});
     }
-    if (!Array.isArray(docObj["state"]["evals"])){
-      console.log("state.evals is bad");
-      return res.end("{}");
-    }
-    res.json(docObj);
   });
 }
 
-function handleAdminLoad(req, res){
+function handleAdminLoad(req, res, adminData){
   var domain = req.query.user.split('@')[1];
   AppState.find({"user": new RegExp('^.*@'+domain, 'i')}, '-_id', function(err, docs){
     if (err){
       console.log("Error: "+err);
       res.end(err);
     }
-    res.json({type: 'admin', payload: docs});
+    var response = {type: 'admin', payload: adminData, otherManagers: docs};
+    res.json(response);
   });
 }
 
