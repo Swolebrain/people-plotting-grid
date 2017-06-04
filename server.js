@@ -4,6 +4,7 @@ var express = require('express');
 var app = express();
 var jwt = require('express-jwt');
 var cors = require('cors');
+var bodyParser = require('body-parser');
 
 var jwtCheck = jwt({
   secret: new Buffer('UUbQ3KTvY1B1xS-lD-fcSGpT3ZglxXsC20I6DHklKLCzHUD5ltmXsuF6muih5Uux', 'base64'),
@@ -19,6 +20,8 @@ var jwtCheck = jwt({
 }
 app.use(allowCrossDomain);*/
 app.use(cors({origin: '*'}));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:true}));
 
 app.use('/api', jwtCheck);
 
@@ -28,34 +31,27 @@ var schemas = require('./schemas.js');
 var AppState = schemas.AppState;
 
 app.post('/api', (req,res) => {
-  var user = req.query.user;
+  var user = req.body.user;
   console.log("got a request from "+user);
-  console.log("State info in request: "+JSON.stringify(req.query));
-  //states[user] = req.query.state;
+  console.log("State info in request: "+JSON.stringify(req.body));
+  
   AppState.findOne({user: user}, '-_id', (err, doc ) =>{
     if (err){
       res.end("Error querying mongodb");
       return;
     }
-    console.log("Request query: "+JSON.stringify(req.query));
     if (doc){
-      /*
-      doc.state = req.query.state;
-      doc.save();
-      */
       console.log("Received request for pre-existing user");
       var conditions = { user: user }
-          , update = { $set: { state: req.query.state }}
+          , update = { $set: { state: req.body.state }}
           , options = { multi: false };
       AppState.update(conditions, update, options, function(err, numAffected){
         if (err){
           res.end("error updating state for user "+user);
         }
-        else{
-          console.log("valid request from "+user+", doc state:\n"+JSON.stringify(doc.toObject()));
-          console.log("number of documents affected: "+JSON.stringify(numAffected));
-          res.end(JSON.stringify(doc.toObject()));
-        }
+        console.log("valid request from "+user+", doc state:\n"+JSON.stringify(doc.toObject()));
+        console.log("number of documents affected: "+JSON.stringify(numAffected));
+        res.end(JSON.stringify(doc.toObject()));
       });
 
     }

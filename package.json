@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "node --harmony server.js",
-    "deploy" : "git add * && git commit && git push digi master",
+    "deploy": "git add * && git commit && git push digi master",
     "start": "node server.js"
   },
   "repository": {
@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/Swolebrain/people-plotting-grid#readme",
   "dependencies": {
+    "body-parser": "^1.17.2",
     "cors": "^2.7.1",
     "express": "^4.13.4",
     "express-jwt": "^3.4.0",
