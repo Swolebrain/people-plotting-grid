@@ -53,9 +53,9 @@ app.post('/api', (req,res) => {
         if (err){
           res.end("error updating state for user "+user);
         }
-        console.log("valid POST from "+user+", doc state:\n"+JSON.stringify(doc.toObject()));
+        console.log("valid POST from "+user+", new state:\n"+JSON.stringify(req.body.state));
         console.log("number of documents affected: "+JSON.stringify(numAffected));
-        res.end(JSON.stringify(doc.toObject()));
+        res.end(JSON.stringify(req.body.state));
       });
 
     }
