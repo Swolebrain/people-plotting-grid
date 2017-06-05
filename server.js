@@ -34,6 +34,9 @@ app.post('/api', (req,res) => {
   var user = req.body.user;
   console.log("got a POST from "+user);
   console.log("State info in request: "+JSON.stringify(req.body));
+  if (!req.body.state.evals){
+    return res.end("Ignoring this POST");
+  }
 
   AppState.findOne({user: user}, '-_id', (err, doc ) =>{
     if (err){
