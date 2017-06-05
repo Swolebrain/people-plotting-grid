@@ -35,6 +35,7 @@ app.post('/api', (req,res) => {
   console.log("got a POST from "+user);
   console.log("State info in request: "+JSON.stringify(req.body));
   if (!req.body.state.evals){
+    console.log("ignoring this POST");
     return res.end("Ignoring this POST");
   }
 
