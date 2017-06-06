@@ -61,7 +61,7 @@ app.post('/api', (req,res) => {
     }
     else{
       console.log("Creating new user due to POST");
-      let userState = new AppState(req.query);
+      let userState = new AppState(req.body);
       userState.save((err, state) => {
         if (err) res.end("Error saving new user to db "+ err);
         else res.end("valid request from "+user+" to store new doc in db. State:\n"+JSON.stringify(state));
