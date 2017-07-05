@@ -96,10 +96,10 @@ function handleUserLoad(req, res){
       console.log("Error: "+err);
       return res.json({error: err});
     }
-    if (!doc){
+    if (!doc && admins.indexOf(req.query.user) === -1){
       return res.json({type: 'user', payload: {}});
     }
-    var docObj = doc.toObject();
+    var docObj = doc.toObject() || {};
     if (admins.indexOf(req.query.user) >= 0){
       handleAdminLoad(req, res, docObj);
     }
