@@ -82,7 +82,8 @@ const admins = [
   'sysop@fvi.edu',
   'kwade@nhflorida.com',
   'dantunes@fvi.edu',
-  'agirnun@fvi.edu'
+  'agirnun@fvi.edu',
+  'vmoreno@nhflorida.com'
 ];
 app.get('/api', (req, res) => {
   console.log("GET request from "+req.query.user);
