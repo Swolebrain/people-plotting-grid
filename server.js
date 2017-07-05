@@ -110,6 +110,7 @@ function handleUserLoad(req, res){
 }
 
 function handleAdminLoad(req, res, adminData){
+  console.log("Handling admin load");
   var domain = req.query.user.split('@')[1];
   AppState.find({"user": new RegExp('^.*@'+domain, 'i')}, '-_id', function(err, docs){
     if (err){
