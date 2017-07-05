@@ -99,7 +99,13 @@ function handleUserLoad(req, res){
     if (!doc && admins.indexOf(req.query.user) === -1){
       return res.json({type: 'user', payload: {}});
     }
-    var docObj = doc ? doc.toObject() : {};
+    var docObj = doc ? doc.toObject() : {
+      user: req.query.user.toLowerCase(),
+      state: {
+        coreVals: {},
+        evals:[]
+      }
+    };
     if (admins.indexOf(req.query.user) >= 0){
       handleAdminLoad(req, res, docObj);
     }
