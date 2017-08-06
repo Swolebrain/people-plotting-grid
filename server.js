@@ -103,7 +103,7 @@ function handleUserLoad(req, res){
       user: req.query.user.toLowerCase(),
       state: {
         coreVals: {},
-        evals:[]
+        evals:[] 
       }
     };
     if (admins.indexOf(req.query.user) >= 0){
