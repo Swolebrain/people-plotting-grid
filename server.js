@@ -83,7 +83,8 @@ const admins = [
   'kwade@nhflorida.com',
   'dantunes@fvi.edu',
   'agirnun@fvi.edu',
-  'vmoreno@nhflorida.com'
+  'vmoreno@nhflorida.com',
+  'gbonwitt@nhflorida.com'
 ];
 app.get('/api', (req, res) => {
   console.log("GET request from "+req.query.user);
@@ -103,7 +104,7 @@ function handleUserLoad(req, res){
       user: req.query.user.toLowerCase(),
       state: {
         coreVals: {},
-        evals:[] 
+        evals:[]
       }
     };
     if (admins.indexOf(req.query.user) >= 0){
