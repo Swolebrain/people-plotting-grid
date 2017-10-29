@@ -11,6 +11,12 @@ var jwtCheck = jwt({
   audience: 'trDPfReklgtHuU9vMwYtEYBGTz0nuLgp'
 });
 
+app.use(function(req,res,next){
+  console.log(req.domain);
+  console.log(req.headers);
+  next();
+});
+
 /*var allowCrossDomain = function(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
