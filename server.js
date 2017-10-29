@@ -1,43 +1,38 @@
 "use strict";
-var port = 8008;
-var express = require('express');
-var app = express();
-var jwt = require('express-jwt');
-var cors = require('cors');
-var bodyParser = require('body-parser');
+const port = 8008;
+const express = require('express');
+const app = express();
+const jwt = require('express-jwt');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const https = require('https');
 
-var jwtCheck = jwt({
+const jwtCheck = jwt({
   secret: new Buffer('UUbQ3KTvY1B1xS-lD-fcSGpT3ZglxXsC20I6DHklKLCzHUD5ltmXsuF6muih5Uux', 'base64'),
   audience: 'trDPfReklgtHuU9vMwYtEYBGTz0nuLgp'
 });
 
+app.set('port', port);
 app.use(function(req,res,next){
   console.log(req.domain);
   console.log(req.headers);
   next();
 });
 
-/*var allowCrossDomain = function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-    res.header('Access-Control-Allow-Headers', 'Content-Type,Authorization');
 
-    next();
-}
-app.use(allowCrossDomain);*/
 app.use(cors({origin: '*'}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 
 app.use('/api', jwtCheck);
 
-var states = {};
+const states = {};
 
-var schemas = require('./schemas.js');
-var AppState = schemas.AppState;
+const schemas = require('./schemas.js');
+const AppState = schemas.AppState;
 
 app.post('/api', (req,res) => {
-  var user = req.body.user;
+  const user = req.body.user;
   console.log("got a POST from "+user);
   console.log("State info in request: "+JSON.stringify(req.body));
   if (!req.body.state.evals){
@@ -136,6 +131,19 @@ function handleAdminLoad(req, res, adminData){
 }
 
 
+const env = process.env.NODE_ENV || 'dev';
 
-app.listen(8008);
-console.log(`App listening on port ${port}`);
+if (env === 'dev'){
+  http.createServer(app)
+  .listen(app.get('port'), ()=>console.log(`Server listening on port ${app.get('port')}`));
+}
+else {
+  let httpsOptions = {
+    key: fs.readFileSync('/etc/letsencrypt/live/apps.techlaunch.io/privkey.pem'),
+    cert: fs.readFileSync('/etc/letsencrypt/live/apps.techlaunch.io/fullchain.pem'),
+    ca: fs.readFileSync('/etc/letsencrypt/live/apps.techlaunch.io/chain.pem')
+  };
+  
+  https.createServer(httpsOptions, app)
+    .listen(app.get('port'), ()=>console.log(`Server listening on port ${app.get('port')}`));
+}

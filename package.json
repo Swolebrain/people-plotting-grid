@@ -25,6 +25,7 @@
     "cors": "^2.7.1",
     "express": "^4.13.4",
     "express-jwt": "^3.4.0",
+    "https": "^1.0.0",
     "mongoose": "^4.5.2"
   }
 }
