@@ -6,6 +6,7 @@ const jwt = require('express-jwt');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const https = require('https');
+const fs = require('fs');
 
 const jwtCheck = jwt({
   secret: new Buffer('UUbQ3KTvY1B1xS-lD-fcSGpT3ZglxXsC20I6DHklKLCzHUD5ltmXsuF6muih5Uux', 'base64'),
@@ -134,8 +135,7 @@ function handleAdminLoad(req, res, adminData){
 const env = process.env.NODE_ENV || 'dev';
 
 if (env === 'dev'){
-  http.createServer(app)
-  .listen(app.get('port'), ()=>console.log(`Server listening on port ${app.get('port')}`));
+  app.listen(app.get('port'), ()=>console.log(`Server listening on port ${app.get('port')}`));
 }
 else {
   let httpsOptions = {
