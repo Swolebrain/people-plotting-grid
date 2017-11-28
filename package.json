@@ -8,7 +8,8 @@
     "server": "node --harmony server.js",
     "deploy": "git add * && git commit && git push aws master && git push origin master",
     "start": "node server.js",
-    "dump_db": "timestamp=$(date \"+%s\") && mongoexport --db people-plotting --collection appstates --out people-plotting-data-${timestamp}.json"
+    "dump_db": "timestamp=$(date \"+%s\") && mongoexport --db people-plotting --collection appstates --out people-plotting-data-${timestamp}.json",
+    "start_prod": "NODE_ENV=production pm2 start server.js --name people-plotting-backend  --log=/var/log/people-plotting-backend.log --log-date-format=\"YYYY-MM-DD HH:mm Z\""
   },
   "repository": {
     "type": "git",
