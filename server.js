@@ -22,8 +22,8 @@ app.use(function(req,res,next){
 
 
 app.use(cors({origin: '*'}));
-app.use(bodyParser.json({limit: '25mb'}));
-app.use(bodyParser.urlencoded({extended: true, limit: '25mb'}));
+app.use(bodyParser.json({limit: '25mb', parameterLimit: 1000000}));
+app.use(bodyParser.urlencoded({extended: true, limit: '25mb', parameterLimit: 1000000}));
 
 app.use('/api', jwtCheck);
 
