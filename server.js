@@ -32,8 +32,9 @@ const states = {};
 const schemas = require('./schemas.js');
 const AppState = schemas.AppState;
 
-app.get('/', function(req, res){
-  console.log("This is a test");
+app.get('/healthcheck', function(req, res){
+  console.log("Health check");
+  res.end("I am healthy");
 });
 
 app.post('/api', (req,res) => {
